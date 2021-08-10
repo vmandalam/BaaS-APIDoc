@@ -1,0 +1,479 @@
+title: Events
+type: object
+description: Events
+additionalProperties: false
+definitions:
+  AccountBalance:
+    title: AccountBalance
+    type: object
+    additionalProperties: false
+    description: Account Balance Structure
+    properties:
+      available:
+        type: integer
+        description: The available balance
+        readOnly: true
+      ledger:
+        type: integer
+        description: The ledger balance. FOR FUTURE USE
+        readOnly: true
+  BankData:
+    title: BankData
+    type: object
+    additionalProperties: false
+    description: Unencrypted Bank Data Structure
+    properties:
+      routingNumber:
+        type: string
+        maxLength: 128
+        description: 'The bank routing number '
+        writeOnly: true
+      accountNumber:
+        type: string
+        maxLength: 128
+        description: 'The bank account number '
+        writeOnly: true
+      bankName:
+        type: string
+        maxLength: 256
+        description: Name of the bank
+        writeOnly: true
+      nickName:
+        type: string
+        maxLength: 128
+        description: Nick name of the bank
+        readOnly: true
+      accountLast4:
+        type: string
+        maxLength: 4
+        description: last four of the linked bank account number
+        readOnly: true
+      verificationStatus:
+        type: string
+        maxLength: 64
+        description: See Bank Verification Status for values
+        readOnly: true
+    required:
+      - routingNumber
+      - accountNumber
+      - bankName
+      - nickName
+      - accountLast4
+      - verificationStatus
+    writeOnly: true
+  CardData:
+    title: CardData
+    type: object
+    properties:
+      cardLastFour:
+        type: number
+        readOnly: true
+      balance:
+        $ref: '#/definitions/AccountBalance'
+      currentAsOf:
+        type: string
+        minLength: 1
+        readOnly: true
+      cardStatus:
+        type: string
+        minLength: 1
+        description: 'See the values at:  /docs/Documentation/Index.md#card-data-structure'
+        readOnly: true
+    required:
+      - cardLastFour
+      - balance
+      - currentAsOf
+      - cardStatus
+  EncryptedData:
+    title: EncryptedData
+    description: 'Encrypted Data Structure ![Alt Text]'
+    type: object
+    properties:
+      version:
+        type: string
+        description: Encrypted Version. See Encryption page for more details
+        maxLength: 32
+      encryptedData:
+        type: string
+        description: 'Base64 encrypted data '
+        maxLength: 4096
+      ephemeralPublicKey:
+        type: string
+        description: Base64 encoded ephemeral public key. Needed for shared key agreement.
+        maxLength: 256
+      publicKeyHash:
+        type: string
+        description: Base64 encoded SHA-256 hash of the X509 encoded public key bytes used during encryption
+        maxLength: 256
+    required:
+      - version
+      - encryptedData
+      - ephemeralPublicKey
+      - publicKeyHash
+  OptIns:
+    title: OptIns
+    type: object
+    description: OptIns Data Structure
+    additionalProperties: false
+    properties:
+      optInType:
+        type: string
+        maxLength: 64
+        description: See opt-in types for values
+      optInFlag:
+        type: boolean
+        description: 'true indicates opt-in, false indicates opt-out'
+      optInDt:
+        type: string
+        maxLength: 128
+        description: |-
+          UTC timestamp indicating the
+          date and time the person opted-in as recorded in the BaaS System.
+    required:
+      - optInType
+      - optInFlag
+      - optInDt
+  PersonId:
+    type: string
+    title: PersonId
+    maxLength: 36
+    description: UUID of the account owner
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    minLength: 36
+    format: uuid
+  PrivatePersonData:
+    title: PrivatePersonData
+    type: object
+    description: Person Data Fields that will be sent in the request and response
+    additionalProperties: false
+    properties:
+      firstName:
+        type: string
+        maxLength: 128
+        description: First name of the person
+      lastName:
+        type: string
+        maxLength: 128
+        description: Last name of the person
+      dateOfBirth:
+        type: string
+        maxLength: 10
+        description: |-
+          Date of birth in format YYYYMM-
+          DD
+        writeOnly: true
+      ssnLastFour:
+        type: number
+        description: Last four of the Social Security Number or ITIN. Either last four or document information are required.
+        writeOnly: true
+      addressLine1:
+        type: string
+        description: Street 1 address line
+        maxLength: 256
+      addressLine2:
+        type: string
+        maxLength: 256
+      city:
+        type: string
+        minLength: 0
+        maxLength: 256
+        description: City name
+      postalCode:
+        type: string
+        maxLength: 9
+        description: postal code
+      email:
+        type: string
+        maxLength: 256
+        description: Email address
+      mobilePhone:
+        type: string
+        maxLength: 16
+        description: Mobile Number
+      countryCode:
+        type: string
+        maxLength: 3
+        description: Country Code
+      state:
+        type: string
+        maxLength: 256
+        description: State Name
+      documentFrontImage:
+        type: string
+        format: byte
+        maxLength: 4096
+        description: |-
+          Base64 encoded binary image
+          data of the front. Required if last four SSN is not provided
+        writeOnly: true
+      documentBackImage:
+        type: string
+        description: |
+          Base64 encoded binary image
+          data of the back. Required if last four SSN is not provided
+        maxLength: 4096
+        format: byte
+        writeOnly: true
+      documentIdType:
+        type: string
+        minLength: 0
+        description: |
+          See Document Types for possible
+          values. Required if last four SSN is not provided
+        maxLength: 128
+        writeOnly: true
+      documentIdNumber:
+        type: string
+        maxLength: 256
+        description: ID number of the document submitted for verification. Required if last four SSN is not provided
+        writeOnly: true
+      mothersLastName:
+        type: string
+        maxLength: 128
+        description: |
+          Mothers Last Name
+        writeOnly: true
+      nationality:
+        type: string
+        description: Nationality
+        maxLength: 256
+      occupation:
+        type: string
+        minLength: 1
+        writeOnly: true
+      personId:
+        $ref: '#/definitions/PersonId'
+      kycStatus:
+        type: string
+        maxLength: 64
+        description: KYC status. See KYC Status Types for values
+        readOnly: true
+      accountStatus:
+        type: string
+        maxLength: 64
+        description: Status of the Person’s account. See Account Status Types for values
+      balance:
+        $ref: '#/definitions/AccountBalance'
+      currentAsOf:
+        type: string
+        maxLength: 128
+        description: UTC timestamp indicating the date and time the data in this account object was current at.
+        readOnly: true
+      encryptedDirectDepositData:
+        $ref: '#/definitions/EncryptedData'
+      termsAccepted:
+        type: array
+        description: Terms Accepted (array)
+        items:
+          $ref: '#/definitions/TermsAccepted'
+      optIns:
+        type: array
+        description: OptIns (Array)
+        items:
+          $ref: '#/definitions/OptIns'
+      personHandle:
+        type: string
+        description: Person handle to be used for peer-to-peer payments
+        maxLength: 64
+    required:
+      - firstName
+      - lastName
+      - dateOfBirth
+      - addressLine1
+      - city
+      - postalCode
+      - email
+      - mobilePhone
+      - countryCode
+  TermsAccepted:
+    title: TermsAccepted
+    type: object
+    description: Tems Accepted Structure
+    additionalProperties: false
+    properties:
+      termsIdentifierType:
+        type: string
+        description: See terms identifier type for values
+        maxLength: 64
+      termsAcceptanceFlag:
+        type: boolean
+        description: true or false flag indicating if the person has accepted or not accepted the terms
+      termsDt:
+        type: string
+        maxLength: 128
+        description: |
+          UTC timestamp indicating the
+          date and time the person accepted or rejected the terms as recorded in the BaaS System.
+    required:
+      - termsIdentifierType
+      - termsAcceptanceFlag
+      - termsDt
+  TransactionId:
+    type: string
+    title: TransactionId
+    description: Transaction or transaction reference identifier
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    minLength: 36
+    maxLength: 36
+    format: uuid
+properties:
+  eventId:
+    type: string
+    description: UUID of the event
+    maxLength: 36
+    minLength: 36
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    format: uuid
+  eventType:
+    type: string
+    description: Type of the event. See Event Types
+    maxLength: 256
+    enum:
+      - transactions.bankToCard
+      - transactions.cardToBank
+      - transactions.adjustment
+      - transactions.fee
+      - transactions.directDeposit
+      - transactions.purchase
+      - transactions.return
+      - transactions.personToPerson
+      - transactions.remittance
+      - transactions.ATMWithdrawl
+      - account.active
+      - account.suspended
+      - account.closed
+      - card.lostStolen
+      - card.lock
+      - card.unlock
+      - card.setATMPin
+  createdAt:
+    type: string
+    maxLength: 128
+  personId:
+    $ref: '#/definitions/PersonId'
+  amount:
+    type: integer
+  transactionId:
+    $ref: '#/definitions/TransactionId'
+  recurrenceTransactionId:
+    $ref: '#/definitions/TransactionId'
+  transactionType:
+    type: string
+    maxLength: 64
+    description: Transaction Types. See Transaction Types for values
+    enum:
+      - transactions.bankToCard
+      - transactions.cardToBank
+      - transactions.adjustment
+      - transactions.fee
+      - transactions.directDeposit
+      - transactions.purchase
+      - transactions.return
+      - transactions.personToPerson
+      - transactions.remittance
+      - transactions.ATMWithdrawl
+      - account.active
+      - account.suspended
+      - account.closed
+      - card.lostStolen
+      - card.lock
+      - card.unlock
+      - card.setATMPin
+  transactionDate:
+    type: string
+    maxLength: 128
+    description: Transaction date in UTC
+  transactionStatus:
+    type: string
+    maxLength: 256
+    description: Transaction Status Type
+    enum:
+      - completed
+      - pending
+      - hold
+      - failed
+      - rejected
+  transactionRefId:
+    $ref: '#/definitions/TransactionId'
+  transactionStatusReason:
+    type: string
+    maxLength: 64
+    description: 'Transaction status reason. '
+  transactiondescription:
+    type: string
+    maxLength: 256
+    description: |
+      Short description string for this transaction.  
+  isCredit:
+    type: boolean
+    description: 'true for credit, false for debit'
+  balanceData:
+    $ref: '#/definitions/AccountBalance'
+  bankData:
+    $ref: '#/definitions/BankData'
+  feeType:
+    type: string
+    maxLength: 64
+    description: Fee Type
+    enum:
+      - ATMFee
+      - networkFee
+      - monthlyMaintenanceFee
+      - ACHFee
+  merchantName:
+    type: string
+    maxLength: 512
+    description: Merchant name
+  merchantCategoryCode:
+    type: string
+    maxLength: 64
+    description: Merchant category code
+  merchantCategoryName:
+    type: string
+    maxLength: 256
+    description: Merchant category name
+  merchantCity:
+    type: string
+    maxLength: 256
+    description: City where merchant was located
+  merchantStateOrProvince:
+    type: string
+    maxLength: 256
+    description: State/province where merchant was located
+  approvalCode:
+    type: string
+    maxLength: 256
+    description: Transaction approval code
+  recipientType:
+    type: string
+    maxLength: 64
+    description: Recipient Type
+    enum:
+      - personToPerson
+      - remittance
+  recipientPersonId:
+    $ref: '#/definitions/PersonId'
+  recipientConfirmationCode:
+    type: string
+    maxLength: 64
+    description: Last four of the recipient phonenumber or other confirmation code
+  personData:
+    $ref: '#/definitions/PrivatePersonData'
+  cardData:
+    $ref: '#/definitions/CardData'
+required:
+  - eventId
+  - eventType
+  - createdAt
+  - personId
+  - amount
+  - transactionId
+  - transactionType
+  - transactionDate
+  - transactionStatus
+  - transactionRefId
+  - isCredit
+  - balanceData
+  - bankData
+  - personData
+  - cardData

@@ -1,0 +1,15 @@
+title: DirectDeposit
+type: object
+description: Direct Deposit Details
+additionalProperties: false
+properties:
+  accountNumber:
+    type: string
+    maxLength: 128
+    description: The bank account number
+    minLength: 0
+  routingNumber:
+    type: string
+    description: The routing number
+    maxLength: 128
+    minLength: 0

@@ -1,0 +1,97 @@
+title: transactiondetails
+type: object
+definitions:
+  LinkId:
+    type: string
+    title: LinkId
+    description: Link Identifier of a particular resource
+    maxLength: 36
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    minLength: 36
+    x-internal: false
+    format: uuid
+properties:
+  source:
+    required:
+      - sourceType
+      - sourceId
+    type: object
+    description: target details
+    properties:
+      sourceType:
+        type: string
+        enum:
+          - account
+        description: 'source type. account indicates P2P transfer '
+      sourceId:
+        $ref: ./PersonId.yaml
+  target:
+    required:
+      - targetType
+      - targetId
+    type: object
+    description: target details
+    properties:
+      targetType:
+        type: string
+        enum:
+          - account
+      targetId:
+        $ref: ./PersonId.yaml
+  amount:
+    type: integer
+    description: Transaction amount
+  currencyCode:
+    type: string
+    maxLength: 3
+    description: |
+      ISO 4217 numeric
+      currency code, as a
+      string to preserve leading
+      zeros
+  signature:
+    type: string
+    maxLength: 4096
+    description: |
+      A Base64-encoded PKCS#7 detached ECC signature providing data integrity over key elements of the request. PayForward will verify prior to processing request. For details, see signature verification page
+    writeOnly: true
+  description:
+    type: string
+    maxLength: 512
+    description: |-
+      Short description string
+      providing context for this
+      transaction.  
+  memo:
+    type: string
+    maxLength: 128
+    description: short memo for the transfer. Used for P2P
+  transactionId:
+    type: string
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    minLength: 36
+    maxLength: 36
+    format: uuid
+    description: 'unique transaction identifier '
+    readOnly: true
+  transactionRefId:
+    type: string
+    pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
+    maxLength: 36
+    minLength: 36
+    description: transaction reference identifier
+  transactionType:
+    type: string
+    maxLength: 64
+    description: see transaction types for values
+    enum:
+      - person2person
+      - purchase
+      - directDeposit
+    readOnly: true
+required:
+  - amount
+  - currencyCode
+  - signature
+  - transactionId
+  - transactionType

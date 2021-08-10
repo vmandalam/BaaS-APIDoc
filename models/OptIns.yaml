@@ -1,0 +1,26 @@
+title: OptIns
+type: object
+description: OptIns Data Structure
+additionalProperties: false
+properties:
+  optInType:
+    type: string
+    maxLength: 64
+    description: See opt-in types for values
+    enum:
+      - EMAIL
+      - SMS
+      - PUSH
+  optInFlag:
+    type: boolean
+    description: 'true indicates opt-in, false indicates opt-out'
+  optInDt:
+    type: string
+    maxLength: 128
+    description: |-
+      UTC timestamp indicating the
+      date and time the person opted-in as recorded in the BaaS System.
+required:
+  - optInType
+  - optInFlag
+  - optInDt

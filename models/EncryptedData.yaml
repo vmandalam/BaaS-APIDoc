@@ -1,0 +1,25 @@
+title: EncryptedData
+description: 'Encrypted Data Structure ![Alt Text]'
+type: object
+properties:
+  version:
+    type: string
+    description: Encrypted Version. See Encryption page for more details
+    maxLength: 32
+  encryptedData:
+    type: string
+    description: 'Base64 encrypted data '
+    maxLength: 4096
+  ephemeralPublicKey:
+    type: string
+    description: Base64 encoded ephemeral public key. Needed for shared key agreement.
+    maxLength: 256
+  publicKeyHash:
+    type: string
+    description: Base64 encoded SHA-256 hash of the X509 encoded public key bytes used during encryption
+    maxLength: 256
+required:
+  - version
+  - encryptedData
+  - ephemeralPublicKey
+  - publicKeyHash

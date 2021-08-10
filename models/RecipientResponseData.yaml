@@ -1,0 +1,21 @@
+title: RecipientResponseData
+type: object
+additionalProperties: false
+description: Recipient Response Structure
+properties:
+  firstName:
+    type: string
+    maxLength: 128
+    description: First name of the recipient
+  maskedLastName:
+    type: string
+    maxLength: 128
+    description: Masked last name of the recipient
+  country:
+    type: string
+    maxLength: 3
+    description: Country code of the recipient
+required:
+  - firstName
+  - maskedLastName
+  - country
