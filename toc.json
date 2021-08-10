@@ -46,12 +46,12 @@
         {
           "type": "item",
           "title": "Banks",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1banks/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1banks/post"
         },
         {
           "type": "item",
           "title": "Verify Banks",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1verifybanks/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1verifybanks/post"
         }
       ]
     },
@@ -62,12 +62,12 @@
         {
           "type": "item",
           "title": "Activate Cards",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1activatecards/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1activatecards/post"
         },
         {
           "type": "item",
           "title": "Update Cards",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1updateCards/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1updateCards/post"
         }
       ]
     },
@@ -78,7 +78,7 @@
         {
           "type": "item",
           "title": "Get Events",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getevents/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getevents/post"
         }
       ]
     },
@@ -89,12 +89,12 @@
         {
           "type": "item",
           "title": "Get Links",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getlinks/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getlinks/post"
         },
         {
           "type": "item",
           "title": "Remove Links",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1removelinks/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1removelinks/post"
         }
       ]
     },
@@ -105,7 +105,7 @@
         {
           "type": "item",
           "title": "Get Locations",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getlocations/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getlocations/post"
         }
       ]
     },
@@ -116,17 +116,17 @@
         {
           "type": "item",
           "title": "Persons",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1persons/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1persons/post"
         },
         {
           "type": "item",
           "title": "Get Persons",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getpersons/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getpersons/post"
         },
         {
           "type": "item",
           "title": "Recipients",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1recipients/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1recipients/post"
         }
       ]
     },
@@ -137,7 +137,7 @@
         {
           "type": "item",
           "title": "Get Terms",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getterms/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getterms/post"
         }
       ]
     },
@@ -148,22 +148,22 @@
         {
           "type": "item",
           "title": "Transactions",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1transactions/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1transactions/post"
         },
         {
           "type": "item",
           "title": "Get Transactions",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1gettransactions/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1gettransactions/post"
         },
         {
           "type": "item",
           "title": "Recurring Transfers",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1recurringtransfers/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1recurringtransfers/post"
         },
         {
           "type": "item",
           "title": "Get Recurring Transactions",
-          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getrecurringtransfers/post"
+          "uri": "BaaS.yaml/paths/~1baas~1v1~1getrecurringtransfers/post"
         }
       ]
     }
