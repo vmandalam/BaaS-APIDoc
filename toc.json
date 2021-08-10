@@ -1,0 +1,171 @@
+{
+  "items": [
+    {
+      "type": "divider",
+      "title": "Documentation"
+    },
+    {
+      "type": "item",
+      "title": "API Introduction",
+      "uri": "docs/Index.md"
+    },
+    {
+      "type": "item",
+      "title": "Status Codes and Errors",
+      "uri": "docs/Status Codes and Errors.md"
+    },
+    {
+      "type": "divider",
+      "title": "BaaS API"
+    },
+    {
+      "type": "item",
+      "title": "BaaS Environments",
+      "uri": "docs/BaaS Environments.md"
+    },
+    {
+      "type": "item",
+      "title": "Data Integrity and Privacy",
+      "uri": "docs/Data Integrity and Privacy.md"
+    },
+    {
+      "type": "group",
+      "title": "Authentication",
+      "items": [   
+        {
+          "type": "item",
+          "title": "oAuth",
+          "uri": "reference/BaaS-oAuth.yaml/paths/~1oauth2~1token/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Banks",
+      "items": [
+        {
+          "type": "item",
+          "title": "Banks",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1banks/post"
+        },
+        {
+          "type": "item",
+          "title": "Verify Banks",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1verifybanks/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Cards",
+      "items": [
+        {
+          "type": "item",
+          "title": "Activate Cards",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1activatecards/post"
+        },
+        {
+          "type": "item",
+          "title": "Update Cards",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1updateCards/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Events",
+      "items": [
+        {
+          "type": "item",
+          "title": "Get Events",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getevents/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Links",
+      "items": [
+        {
+          "type": "item",
+          "title": "Get Links",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getlinks/post"
+        },
+        {
+          "type": "item",
+          "title": "Remove Links",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1removelinks/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Locations",
+      "items": [
+        {
+          "type": "item",
+          "title": "Get Locations",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getlocations/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Persons",
+      "items": [
+        {
+          "type": "item",
+          "title": "Persons",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1persons/post"
+        },
+        {
+          "type": "item",
+          "title": "Get Persons",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getpersons/post"
+        },
+        {
+          "type": "item",
+          "title": "Recipients",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1recipients/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Terms",
+      "items": [
+        {
+          "type": "item",
+          "title": "Get Terms",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getterms/post"
+        }
+      ]
+    },
+    {
+      "type": "group",
+      "title": "Transactions & Transfers",
+      "items": [
+        {
+          "type": "item",
+          "title": "Transactions",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1transactions/post"
+        },
+        {
+          "type": "item",
+          "title": "Get Transactions",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1gettransactions/post"
+        },
+        {
+          "type": "item",
+          "title": "Recurring Transfers",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1recurringtransfers/post"
+        },
+        {
+          "type": "item",
+          "title": "Get Recurring Transactions",
+          "uri": "BaaS-API/BaaS.yaml/paths/~1baas~1v1~1getrecurringtransfers/post"
+        }
+      ]
+    }
+  ]
+}
