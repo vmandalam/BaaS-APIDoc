@@ -1,7 +1,0 @@
-type: string
-title: TransactionId
-description: Transaction or transaction reference identifier
-pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
-minLength: 36
-maxLength: 36
-format: uuid

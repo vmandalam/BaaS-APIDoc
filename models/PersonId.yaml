@@ -1,7 +1,0 @@
-type: string
-title: PersonId
-maxLength: 36
-description: UUID of the account owner
-pattern: '^[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}$'
-minLength: 36
-format: uuid
