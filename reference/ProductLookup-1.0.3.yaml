@@ -1,0 +1,400 @@
+openapi: 3.0.3
+info:
+  title: 'Filtered Spend: Product Lookup'
+  description: ' Specification to lookup products in the authorized product list and provide status details about products. Primarily used for realtime lookup to see if a product qualifies for a program'
+  contact:
+    name: API Support
+    email: StateSupport@fisglobal.com
+  license:
+    name: FIS Proprietary
+    url: 'https://www.ebtedge.com/contactus'
+  version: 1.0.3
+paths:
+  /products/lookup:
+    post:
+      tags:
+        - Products
+      summary: Returns a list of product information.
+      description: 'Returns if products match the search criteria. if matches, return the status information of the matched products from uthorized product list.'
+      operationId: lookupProducts
+      parameters:
+        - $ref: '#/components/parameters/uuid'
+        - $ref: '#/components/parameters/appId'
+        - $ref: '#/components/parameters/orgId'
+        - $ref: '#/components/parameters/sourceId'
+        - $ref: '#/components/parameters/userId'
+      requestBody:
+        $ref: '#/components/requestBodies/ProductLookupBody'
+      responses:
+        '200':
+          headers:
+            uuid:
+              $ref: '#/components/headers/uuid'
+          description: Successful.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Products'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/UnAuthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+components:
+  schemas:
+    LookupProduct:
+      description: Lookup product identifiers using filter criteria
+      type: object
+      properties:
+        continuationBlock:
+          description: Search continuation block; empty for initial search
+          type: string
+          maxLength: 100
+        productIds:
+          description: List of Product Identifiers to check approval against BIN
+          uniqueItems: true
+          type: array
+          items:
+            type: string
+          example:
+            - '123456789012'
+            - '123456789013'
+        keyword:
+          description: Search string
+          type: string
+          minLength: 3
+          maxLength: 50
+        filters:
+          description: Filters to apply in product search
+          type: array
+          items:
+            $ref: '#/components/schemas/FilterCriteria'
+    FilterCriteria:
+      type: object
+      description: Key attributes and its value to match against a product
+      properties:
+        key:
+          type: string
+          example: BIN
+        value:
+          type: string
+          example: 507680
+      required:
+        - key
+        - value
+    Product:
+      description: 'Information for given Product. '
+      type: object
+      properties:
+        productId:
+          description: Product identifier
+          type: string
+          example: '123456789012'
+        status:
+          description: Product status in the System.
+          type: string
+          example: APPROVED
+        category:
+          $ref: '#/components/schemas/ProductCategory'
+        subCategory:
+          $ref: '#/components/schemas/ProductCategory'
+        detail:
+          $ref: '#/components/schemas/ProductDetail'
+    Products:
+      description: |
+        List of Products  
+      type: object
+      properties:
+        continuationBlock:
+          description: Search continuation block
+          type: string
+          maxLength: 100
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/Product'
+    ProductCategory:
+      description: |
+        Product Category
+      type: object
+      properties:
+        code:
+          type: string
+          description: category code
+        description:
+          type: string
+          description: description
+    ProductDetail:
+      description: |
+        Product information
+      type: object
+      properties:
+        name:
+          type: string
+          description: product name
+        imageUrl:
+          type: string
+          description: product image url;  can be empty
+    ProblemDetail:
+      type: object
+      properties:
+        type:
+          format: uri
+          description: Problem identifier URI
+          type: string
+        title:
+          description: Problem message
+          type: string
+        details:
+          description: An array of problem messages
+          type: array
+          items:
+            $ref: '#/components/schemas/ProblemMessage'
+    ProblemMessage:
+      type: object
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        field:
+          type: string
+  requestBodies:
+    ProductLookupBody:
+      description: Product search request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/LookupProduct'
+          examples:
+            One:
+              $ref: '#/components/examples/One'
+            Two:
+              $ref: '#/components/examples/Two'
+            Three:
+              $ref: '#/components/examples/Three'
+  parameters:
+    appId:
+      name: application-id
+      in: header
+      description: Request originating channel/application/component.
+      required: false
+      explode: false
+      style: simple
+      example: BenefitPortal
+      schema:
+        type: string
+        minLength: 6
+        maxLength: 15
+    userId:
+      name: user-id
+      in: header
+      description: if originated by a user.
+      required: false
+      explode: false
+      style: simple
+      example: User1
+      schema:
+        type: string
+        minLength: 8
+        maxLength: 24
+    sourceId:
+      name: source-id
+      in: header
+      description: 'request originating device identifier (phone number, IP Address, device id).'
+      required: false
+      explode: false
+      style: simple
+      example: Nations
+      schema:
+        type: string
+        minLength: 6
+        maxLength: 20
+    uuid:
+      name: uuid
+      in: header
+      description: |
+        Unique request identifier to be used as a request-response correlation id. Generated by client and should be in the UUID format.
+      required: true
+      explode: false
+      style: simple
+      example: f791d5b6-edd1-4ce7-b047-79e5ea4d26ae
+      schema:
+        format: uuid
+        type: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        minLength: 36
+        maxLength: 36
+    orgId:
+      name: organization-id
+      in: header
+      description: |
+        Request originating organization. Assigned by FIS.
+      required: true
+      explode: false
+      style: simple
+      example: XYZORG
+      schema:
+        type: string
+        minLength: 6
+        maxLength: 20
+  headers:
+    uuid:
+      description: Unique request identifier
+      required: true
+      style: simple
+      explode: false
+      schema:
+        format: uuid
+        type: string
+        pattern: '^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$'
+        minLength: 36
+        maxLength: 36
+        example: 194a28e4-c4bf-11eb-8529-0242ac130003
+  responses:
+    BadRequest:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Bad Request
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          examples:
+            '400':
+              $ref: '#/components/examples/400Ref'
+    Forbidden:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Request not allowed
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          examples:
+            '403':
+              $ref: '#/components/examples/403Ref'
+    UnAuthorized:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Unauthorized
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          examples:
+            '401':
+              $ref: '#/components/examples/401Ref'
+    NotFound:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Not found
+    NotImplemented:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Not Implemented.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          examples:
+            '401':
+              $ref: '#/components/examples/501Ref'
+    ServiceUnavailable:
+      headers:
+        uuid:
+          $ref: '#/components/headers/uuid'
+      description: Service Unavailable.
+      content:
+        application/problem+json:
+          schema:
+            $ref: '#/components/schemas/ProblemDetail'
+          examples:
+            '503':
+              $ref: '#/components/examples/503Ref'
+  examples:
+    400Ref:
+      value:
+        type: 'classname: 70'
+        title: Request is incorrect
+        details:
+          - code: ERS400
+            message: Bad request
+            field: Product Id
+    401Ref:
+      value:
+        type: 'classname: 71'
+        title: UnAuthorized request
+        details:
+          - code: ERS401
+            message: Provided credentails/headers are invalid.
+            field: product Id
+    403Ref:
+      value:
+        type: 'classname: 80'
+        title: Invalid request headers
+        details:
+          - code: ERS403
+            message: Request headers not found/valid
+            field: organization-id
+    501Ref:
+      value:
+        type: 'classname: 100'
+        title: Method not implemented
+        details:
+          - code: ERS501
+            message: The requested method not implemented
+            field: Product
+    503Ref:
+      value:
+        type: 'classname: 130'
+        title: Service not available
+        details:
+          - code: ERS503
+            message: 'The service not available at moment, please try again later'
+            field: Product Id
+    One:
+      value:
+        continuationBlock: null
+        productIds:
+          - 123456789012
+          - 12121343445
+        filters:
+          - key: wallet
+            value: OTC
+    Two:
+      value:
+        productIds:
+          - 123456789012
+        filters:
+          - key: BIN
+            value: 507719
+          - key: SUBPROGRAM
+            value: SUBP1
+          - key: CONDITION
+            value: 1
+    Three:
+      value:
+        continuationBlock: Q29udGludWF0aW9uQmxvY2s=
+        keyword: Tylenol
+        filters:
+          - key: category
+            value: HEALTH
+          - key: subCategory
+            value: First Aid
+tags:
+  - name: Products
+    description: Authorized product List.
+servers:
+  - description: SwaggerHub API Auto Mocking
+    url: 'https://swaggerhub.fisdev.local/virts/FIS_Org/FilteredSpend-ProductLookup/1.0.3'
